@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Card - Ivelin Markov</title>
+    <!-- ПОПРАВЕН ЛИНК ЗА ИКОНИ -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(180deg, #b3d1ff 0%, #ffffff 40%);
+            --text-color: #333;
+            --accent-color: #555;
+            --link-color: #007AFF;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .job-title {
+            color: #2393dd;
+            font-size: 16px;
+            margin: 5px 0 25px 0;
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .quick-actions a {
+            font-size: 24px;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .info-list {
+            text-align: left;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.7);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 0.5px solid #eee;
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-item i {
+            width: 35px;
+            color: #555;
+            font-size: 18px;
+        }
+
+        .info-content label {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .info-content a {
+            font-size: 15px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .add-contact-btn {
+            display: inline-block;
+            background: #4A90E2;
+            color: white !important;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none !important;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <img src="./Nolina_Email_Signature_Ivelin_Markov.png" alt="Ivelin Markov" class="profile-pic">
+    <h1>Ivelin Markov</h1>
+    <p class="job-title">Marketing & Sales Manager</p>
+
+    <div class="quick-actions">
+        <a href="tel:+359886433083"><i class="fa-solid fa-phone"></i></a>
+        <a href="mailto: markov@nolina.bg"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://google.com" target="_blank"><i class="fa-solid fa-location-dot"></i></a>
+    </div>
+
+    <div class="info-list">
+        <div class="info-item" style="border-bottom: none;">
+            <i class="fa-solid fa-building"></i>
+            <div class="info-content">
+                <img src="./logo_Nolina_en.png" alt="Nolina Logo" style="width: 120px; height: auto;">
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <div class="info-content">
+                <label>Phone</label>
+                <a href="tel:+359886433083">+359 886 433 083</a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="fa-solid fa-envelope"></i>
+            <div class="info-content">
+                <label>Email</label>
+                <a href="mailto: markov@nolina.bg"> markov@nolina.bg</a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="fa-solid fa-globe"></i>
+            <div class="info-content">
+                <label>Web</label>
+                <a href="http://nolina.bg" target="_blank">www.nolina.bg</a>
+            </div>
+        </div>
+        <div class="info-item">
+    <i class="fa-solid fa-map-pin"></i>
+    <div class="info-content">
+        <label>Address</label>
+        <a href="https://www.google.com/maps/place/Nolina+Ltd/@42.413982,25.635052,15z/data=!4m6!3m5!1s0x40a8699b8d06b483:0x1c18ba0f10fdf71c!8m2!3d42.413999!4d25.6350528!16s%2Fg%2F1tcx00bk?entry=ttu&g_ep=EgoyMDI2MDQwNS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+            Stara Zagora, Bulgaria, 52 Voyvoda Stoyno Chernogorski Str.
+        </a>
+    </div>
+</div>
+    </div>
+
+    <!-- ФУНКЦИЯТА СЕ ИЗВИКВА С EVENT -->
+    <button class="add-contact-btn" onclick="downloadVcf(event)">
+        <i class="fa-solid fa-user-plus"></i> Add to Contacts
+    </button>
+</div>
+
+<script>
+function downloadVcf(event) {
+    event.preventDefault(); // Спира презареждането на страницата
+
+    const vcard = "BEGIN:VCARD\r\n" +
+                  "VERSION:3.0\r\n" +
+                  "FN:Ivelin Markov\r\n" +
+                  "ORG:Nolina\r\n" +
+                  "TITLE: Marketing & Sales Manager\r\n" +
+                  "TEL;TYPE=CELL,VOICE: +359886433083\r\n" +
+                  "EMAIL;TYPE=PREF,INTERNET: markov@nolina.bg\r\n" +
+                  "ADR;TYPE=WORK:;;9 Asen Yodranov Blvd.;Sofia;;1592;Bulgaria\r\n" +
+                  "URL:http://nolina.bg\r\n" +
+                  "END:VCARD";
+
+    const fileName = "Ivelin_Markov.vcf";
+    const mimeType = "text/vcard";
+
+    // Проверка за iOS/Android Share API
+    if (navigator.share && navigator.canShare) {
+        const file = new File([vcard], fileName, { type: mimeType });
+        if (navigator.canShare({ files: [file] })) {
+            navigator.share({
+                files: [file],
+                title: 'Ivelin Markov',
+                text: 'Contact details for Ivelin Markov'
+            }).catch(err => {
+                console.log("Share failed:", err);
+                fallbackDownload(vcard, fileName, mimeType);
+            });
+            return;
+        }
+    }
+
+    fallbackDownload(vcard, fileName, mimeType);
+}
+
+function fallbackDownload(vcard, fileName, mimeType) {
+    const blob = new Blob([vcard], { type: mimeType });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    }, 100);
+}
+</script>
+
+</body>
+</html>
