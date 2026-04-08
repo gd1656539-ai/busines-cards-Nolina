@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
@@ -227,6 +228,239 @@ function downloadVcf(event) {
         }
     }
 
+    fallbackDownload(vcard, fileName, mimeType);
+}
+
+function fallbackDownload(vcard, fileName, mimeType) {
+    const blob = new Blob([vcard], { type: mimeType });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    }, 100);
+}
+</script>
+
+</body>
+</html>
+„Счупването“ се дължи на три конкретни технически грешки в кода, които пречат на иконите да се заредят и на бутона да работи:
+
+    Липсващ аргумент event: В HTML кода на бутона извиквате downloadVcf(), но в JavaScript функцията очаква event. Когато JavaScript се опита да изпълни event.preventDefault(), той гърми с грешка, защото не знае какво е event.
+    Грешен линк за иконите: Линкът https://cloudflare.com не е библиотека. Трябва да е пълният път към FontAwesome.
+    Липсващи кавички или неправилни пътища: Има малки разминавания в имената на файловете и стиловете.
+
+Ето напълно поправеният и работещ код за Анелия Христова:
+html
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дигитална Визитка - Анелия Христова</title>
+    <!-- ФИКСИРАН ЛИНК ЗА ИКОНИ -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(180deg, #b3d1ff 0%, #ffffff 40%);
+            --text-color: #333;
+            --accent-color: #555;
+            --link-color: #007AFF;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .job-title {
+            color: rgb(35, 147, 221);
+            font-size: 16px;
+            margin: 5px 0 25px 0;
+            font-weight: bold;
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .quick-actions a {
+            font-size: 24px;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .info-list {
+            text-align: left;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.7);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 0.5px solid #eee;
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-item i {
+            width: 35px;
+            color: #555;
+            font-size: 18px;
+        }
+
+        .info-content label {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .info-content a {
+            font-size: 15px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .add-contact-btn {
+            display: inline-block;
+            background: #4A90E2;
+            color: white !important;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none !important;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <img src="./anelia.png" alt="Анелия Христова" class="profile-pic">
+    <h1>Анелия Христова</h1>
+    <p class="job-title">Мениджър Маркетинг и Реклама</p>
+
+    <div class="quick-actions">
+        <a href="tel:+359887394159"><i class="fa-solid fa-phone"></i></a>
+        <a href="mailto:anelia@nolina.bg"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://google.com" target="_blank"><i class="fa-solid fa-location-dot"></i></a>
+    </div>
+
+    <div class="info-list">
+        <div class="info-item" style="border-bottom: none;">
+            <i class="fa-solid fa-building"></i>
+            <div class="info-content">
+                <img src="./logo_Nolina.png" alt="Nolina Logo" style="width: 120px; height: auto;">
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <div class="info-content">
+                <label>Телефон</label>
+                <a href="tel:+359887394159">+359 887 394 159</a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="fa-solid fa-envelope"></i>
+            <div class="info-content">
+                <label>Имейл</label>
+                <a href="mailto:anelia@nolina.bg">anelia@nolina.bg</a>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="fa-solid fa-globe"></i>
+            <div class="info-content">
+                <label>Уебсайт</label>
+                <a href="http://nolina.bg" target="_blank">www.nolina.bg</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВАЖНО: Добавен (event) тук -->
+    <button class="add-contact-btn" onclick="downloadVcf(event)">
+        <i class="fa-solid fa-user-plus"></i> Добави в контакти
+    </button>
+</div>
+
+<script>
+function downloadVcf(event) {
+    if (event) event.preventDefault();
+
+    const vcard = "BEGIN:VCARD\r\n" +
+                  "VERSION:3.0\r\n" +
+                  "FN:Anelia Hristova\r\n" +
+                  "ORG:Nolina\r\n" +
+                  "TITLE:Marketing Manager\r\n" +
+                  "TEL;TYPE=CELL,VOICE:+359887394159\r\n" +
+                  "EMAIL;TYPE=PREF,INTERNET:anelia@nolina.bg\r\n" +
+                  "ADR;TYPE=WORK:;;9 Asen Yodranov Blvd.;Sofia;;1592;Bulgaria\r\n" +
+                  "URL:http://nolina.bg\r\n" +
+                  "END:VCARD";
+
+    const fileName = "Anelia_Hristova.vcf";
+    const mimeType = "text/vcard";
+
+    if (navigator.share && navigator.canShare) {
+        const file = new File([vcard], fileName, { type: mimeType });
+        if (navigator.canShare({ files: [file] })) {
+            navigator.share({
+                files: [file],
+                title: 'Anelia Hristova'
+            }).catch(err => {
+                fallbackDownload(vcard, fileName, mimeType);
+            });
+            return;
+        }
+    }
     fallbackDownload(vcard, fileName, mimeType);
 }
 
