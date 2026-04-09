@@ -183,7 +183,7 @@
 
 <script>
 function downloadVcf(event) {
-    event.preventDefault(); // Спира презареждането на страницата
+    if (event) event.preventDefault();
 
     const vcard = "BEGIN:VCARD\r\n" +
                   "VERSION:3.0\r\n" +
@@ -192,43 +192,44 @@ function downloadVcf(event) {
                   "TITLE:Regional Manager Sofia\r\n" +
                   "TEL;TYPE=CELL,VOICE:+359887429665\r\n" +
                   "EMAIL;TYPE=PREF,INTERNET:d-hristov@nolina.bg\r\n" +
-                  "ADR;TYPE=WORK:;;9 Asen Yodranov Blvd.;Sofia;;1592;Bulgaria\r\n" +
                   "URL:http://nolina.bg\r\n" +
                   "END:VCARD";
 
     const fileName = "Dimitar_Hristov.vcf";
-    const mimeType = "text/vcard";
 
-    // Проверка за iOS/Android Share API
-    if (navigator.share && navigator.canShare) {
-        const file = new File([vcard], fileName, { type: mimeType });
-        if (navigator.canShare({ files: [file] })) {
-            navigator.share({
-                files: [file],
-                title: 'Dimitar Hristov',
-                text: 'Contact details for Dimitar Hristov'
-            }).catch(err => {
-                console.log("Share failed:", err);
-                fallbackDownload(vcard, fileName, mimeType);
-            });
-            return;
-        }
+    // ПРОВЕРКА ЗА IOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (isIOS && navigator.share) {
+        const file = new File([vcard], fileName, { type: "text/vcard" });
+        navigator.share({
+            files: [file],
+            title: 'Dimitar Hristov'
+        }).catch(err => {
+            // Fallback ако потребителят затвори прозореца
+            forceDownload(vcard, fileName);
+        });
+    } else {
+        // МЕТОД ЗА ANDROID И ДРУГИ (Използваме Data URI с base64)
+        forceDownload(vcard, fileName);
     }
-
-    fallbackDownload(vcard, fileName, mimeType);
 }
 
-function fallbackDownload(vcard, fileName, mimeType) {
-    const blob = new Blob([vcard], { type: mimeType });
-    const url = window.URL.createObjectURL(blob);
+function forceDownload(vcard, fileName) {
+    // Кодираме vCard в Base64, за да не се чупи от специални символи
+    const base64Vcard = btoa(unescape(encodeURIComponent(vcard)));
+    const dataUri = 'data:text/vcard;base64,' + base64Vcard;
+    
     const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
+    link.href = dataUri;
+    link.setAttribute('download', fileName);
+    link.style.display = 'none';
+    
     document.body.appendChild(link);
     link.click();
+    
     setTimeout(() => {
         document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
     }, 100);
 }
 </script>
